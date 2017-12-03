@@ -27,12 +27,12 @@ The following command is run:
 
 1. `my-lib-root` becomes the starting point of the application
 1. the config file is read:
-  1. if `searchPackages`:
-    1. exist, then look for those during file read
-    1. is empty, then return an Error helpful message
-  1. if `blackListedFiles`:
-    1. exist, don't report on those files when encountered
-    1. is empty, that is Ok
+    1. if `searchPackages`:
+        1. exist, then look for those during file read
+        1. is empty, then return an Error helpful message
+    1. if `blackListedFiles`:
+        1. exist, don't report on those files when encountered
+        1. is empty, that is Ok
 1. the files are read and parsed
 1. the results are returned as a JSON object
 
