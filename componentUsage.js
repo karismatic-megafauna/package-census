@@ -1,116 +1,101 @@
- var myArgs = process.argv.slice(2);
- console.log('myArgs: ', myArgs);
-// const fs = require('fs');
-// const findIt = require('findit');
-// const path = require('path');
-// const allComponents = fs.readdirSync('src/_shared/components/');
-// const cliArg = process.argv.slice(2);
-// const isRelease = process.env.RELEASE || false;
-// let compList = [];
+let myArgs = require('optimist').argv,
+	help = 'Please provide the specified arguments';
 
-// // ---------------------------------------
-// // Functions
-// // ---------------------------------------
-// function initialize(list) {
-//   const componentScaffold = [];
-//   for (const comp in list) {
-//     if (list[comp] === undefined ) {
-//       console.log(`Could not find component(s): ${cliArg[comp]}`);
-//     } else {
-//       if (list[comp] !== '__tests__' && list[comp] !== 'index.js') {
-//         fs.stat(`src/_shared/components/${list[comp]}/__tests__`, (err, stat) => {
-//           componentScaffold.push({
-//             name: list[comp],
-//             count: 0,
-//             paths: [],
-//             hasTests: err === null,
-//           });
-//         });
-//       }
-//     }
-//   }
-//   return componentScaffold;
-// }
+if ((myArgs.h)||(myArgs.help)) {
+	console.log(help);
+	process.exit(0);
+}
+console.log('myArgs: ', myArgs);
 
-// function matchComponent(fileString, filePath) {
-//   compList = compList.map((comp) => {
-//     const isParent = fileString.indexOf(`/${comp.name}/`) !== -1;
-//     const isChild = fileString.indexOf(`/${comp.name}'`) !== -1;
-//     if (isParent || isChild ) {
-//       comp.count += 1;
-//       comp.paths.push(filePath);
-//     }
-//     return comp;
-//   });
-// }
+const fs = require('fs');
+const findIt = require('findit');
+const path = require('path');
+const isRelease = process.env.RELEASE || false;
+let compList = [];
 
-// function filterComponents(reqComps, allComps) {
-//   return reqComps.map((reqComp) => {
-//     const foundComponent = allComps.filter(comp => comp === reqComp)[0];
-//     if (foundComponent !== undefined) {
-//       return foundComponent;
-//     }
-//   });
-// }
+// ---------------------------------------
+// Functions
+// ---------------------------------------
+function initialize(list) {
+  const componentScaffold = [];
+	for (const comp in list) {
+		componentScaffold.push({
+			name: list[comp],
+			count: 0,
+			paths: [],
+			hasTests: err === null,
+		});
+	}
+  return componentScaffold;
+}
 
-// // Promise Factory
-// const walkDirectory = directory => new Promise((resolve) => {
-//   const finder = findIt(directory);
-//   finder.on('file', (filePath) => {
-//     const contents = fs.readFileSync(filePath, 'utf8');
-//     const isJS = path.extname(filePath) === '.js';
-//     const isJSX = path.extname(filePath) === '.jsx';
-//     if ( isJS || isJSX ) {
-//       matchComponent(contents, filePath);
-//     }
-//   });
+function matchComponent(fileString, filePath) {
+    // PARSE TO AST
+    //  - get all imports
+    //  - get all places our searchPackages are used
+    // const isParent = fileString.indexOf(`/${comp.name}/`) !== -1;
+    // const isChild = fileString.indexOf(`/${comp.name}'`) !== -1;
+    // if (isParent || isChild ) {
+    //   comp.count += 1;
+    //   comp.paths.push(filePath);
+    // }
+}
 
-//   finder.on('end', () => resolve(directory));
-// });
+function filterComponents(reqComps, allComps) {
+  return reqComps.map((reqComp) => {
+    const foundComponent = allComps.filter(comp => comp === reqComp)[0];
+    if (foundComponent !== undefined) {
+      return foundComponent;
+    }
+  });
+}
 
-// // ---------------------------------------
-// // Script Body
-// // ---------------------------------------
-// if (cliArg.length !== 0 && !isRelease) {
-//   compList = initialize(filterComponents(cliArg, allComponents));
-// } else {
-//   compList = initialize(allComponents);
-// }
+// Promise Factory
+const walkDirectory = directory => new Promise((resolve) => {
+  const finder = findIt(directory);
+  finder.on('file', (filePath) => {
+    const contents = fs.readFileSync(filePath, 'utf8');
+    const isJS = path.extname(filePath) === '.js';
+    const isJSX = path.extname(filePath) === '.jsx';
+    if ( isJS || isJSX ) {
+      // pass contents to Acorn
+      matchComponent(contents, filePath);
+    }
+  });
 
-// const directories = [
-//   'src/_shared/tools',
-//   'src/tools',
-//   'src/_shared/components',
-//   'src/app',
-//   'src/components.js',
-// ];
+  finder.on('end', () => resolve(directory));
+});
 
-// const dirWalkPromises = directories.map(walkDirectory);
-// Promise.all(dirWalkPromises).then(() => {
-//   const metaInfo = compList.reduce((acc, curr) => {
-//     const isMostUsed = curr.count >= acc.count;
-//     return {
-//       grandTotal: acc.grandTotal + curr.count,
-//       mostUsed: isMostUsed ? curr.name : acc.mostUsed,
-//       count: isMostUsed ? curr.count : acc.count,
-//     };
-//   }, { grandTotal: 0, mostUsed: '', count: 0 });
+// ---------------------------------------
+// Script Body
+// ---------------------------------------
 
-//   const compListTotals = {
-//     componentList: compList,
-//     grandTotal: metaInfo.grandTotal,
-//     mostUsed: {
-//       name: metaInfo.mostUsed,
-//       count: metaInfo.count,
-//     },
-//   };
-//   const formattedData = JSON.stringify(compListTotals, null, 2);
+const searchPackages = ['lodash', 'ramda', 'underscore', 'immutable'];
+compList = initialize(searchPackages);
 
-//   if (isRelease) {
-//     fs.writeFile(cliArg[0], formattedData, (err) => {
-//       if (err) throw err;
-//     });
-//   } else {
-//     return console.log(formattedData);
-//   }
-// });
+const appRoot = './testData/MyProjectRoot';
+const directories = [appRoot];
+
+const dirWalkPromises = directories.map(walkDirectory);
+Promise.all(dirWalkPromises).then(() => {
+  const metaInfo = compList.reduce((acc, curr) => {
+    const isMostUsed = curr.count >= acc.count;
+    return {
+      grandTotal: acc.grandTotal + curr.count,
+      mostUsed: isMostUsed ? curr.name : acc.mostUsed,
+      count: isMostUsed ? curr.count : acc.count,
+    };
+  }, { grandTotal: 0, mostUsed: '', count: 0 });
+
+  const compListTotals = {
+    componentList: compList,
+    grandTotal: metaInfo.grandTotal,
+    mostUsed: {
+      name: metaInfo.mostUsed,
+      count: metaInfo.count,
+    },
+  };
+	const formattedData = JSON.stringify(compListTotals, null, 2);
+
+	return console.log(formattedData);
+});
