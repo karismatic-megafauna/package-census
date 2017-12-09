@@ -8,6 +8,7 @@ let myArgs = require('optimist').argv,
 let compList = [];
 const searchPackages = ['react-redux', 'redux-modules', 'reselect'];
 const appRoot = '../Procore/procore/wrench/src';
+const showPaths = false;
 // const appRoot = './testData/MyProjectRoot';
 
 if ((myArgs.h) || (myArgs.help)) {
@@ -23,7 +24,7 @@ function initialize(list) {
 		componentScaffold.push({
 			name: list[comp],
 			count: 0,
-			// paths: [],
+			paths: [],
 		});
 	}
   return componentScaffold;
@@ -39,7 +40,7 @@ function matchComponent(fileString, filePath) {
         return {
           ...comp,
           count: isComp ? comp.count + 1 : comp.count,
-          paths: isComp ? comp.paths.concat(filePath) : comp.paths,
+          paths: isComp && showPaths ? comp.paths.concat(filePath) : comp.paths,
         }
       });
     },
