@@ -1,0 +1,5 @@
+{
+  "searchPackages": [ "underscore", "react-redux", "redux-modules", "reselect" ],
+  "appRoot": "../Procore/procore/wrench/src",
+  "showPaths": false
+}
