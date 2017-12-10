@@ -2,12 +2,12 @@
 Get an idea of what is going on in your package.json, see trends in usage and other useful things
 
 # TODO
-- [ ] Read all the files in a directory, specify as arg
-- [ ] Gather all the imports into an object
-- [ ] read the following from a config file
-   - [ ] imports they care to look for (search packages :: Array)
-   - [ ] files to not look in (black listed files :: Array)
-- [ ] build up an object with some info about paths and usage of imports
+- [x] Read all the files in a directory, specify as arg
+- [x] Gather all the imports into an object
+- [x] read the following from a config file
+   - [x] imports they care to look for (search packages :: Array)
+   - [x] files to not look in (black listed files :: Array)
+- [x] build up an object with some info about paths and usage of imports
 
 # Workflow
 This script could be ran on:
