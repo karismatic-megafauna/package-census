@@ -3,7 +3,9 @@ Get an idea of what is going on in your package.json, see trends in usage and ot
 
 # Usage
 Currently, while it is not on npm clone this repo and specify a configuration JSON file with the following keys:
+
 `searchPackages` => an array of strings that are packages you would like to search for
+
 `appRoot` => a string that is the path to the root of the project you want to look in
 
 use it like this:
