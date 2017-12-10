@@ -4,8 +4,7 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 const findIt = require('findit');
 const path = require('path');
-let myArgs = require('optimist').argv,
-	help = 'Please provide the specified arguments';
+let myArgs = require('optimist').argv;
 let compList = [];
 const searchPackages = ['react-redux', 'redux-modules', 'reselect'];
 const appRoot = '../Procore/procore/wrench/src';
@@ -17,7 +16,7 @@ if ( myArgs._.length === 0) {
    - ${chalk.green('searchPackages')}
    - ${chalk.green('appRoot')}
   `);
-	process.exit(1);
+  process.exit(1);
 }
 
 // ---------------------------------------
@@ -25,13 +24,13 @@ if ( myArgs._.length === 0) {
 // ---------------------------------------
 function initialize(list) {
   const componentScaffold = [];
-	for (const comp in list) {
-		componentScaffold.push({
-			name: list[comp],
-			count: 0,
-			paths: [],
-		});
-	}
+  for (const comp in list) {
+    componentScaffold.push({
+      name: list[comp],
+      count: 0,
+      paths: [],
+    });
+  }
   return componentScaffold;
 }
 
