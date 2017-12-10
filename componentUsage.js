@@ -6,8 +6,6 @@ const findIt = require('findit');
 const path = require('path');
 let myArgs = require('optimist').argv;
 let compList = [];
-const searchPackages = ['react-redux', 'redux-modules', 'reselect'];
-const appRoot = '../Procore/procore/wrench/src';
 
 if ( myArgs._.length === 0) {
   console.log('No config file found, please specify a config file');
