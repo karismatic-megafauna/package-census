@@ -38,7 +38,7 @@ Example output:
   {
     "name": "immutable",
     "count": 460,
-    "paths": [...]
+    "paths": ["..."]
   }
 ]
 ```
