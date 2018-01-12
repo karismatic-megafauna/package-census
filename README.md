@@ -23,17 +23,17 @@ Example output:
   {
     "name": "lodash",
     "count": 38,
-    "paths": [...]
+    "paths": ["..."]
   },
   {
     "name": "ramda",
     "count": 179,
-    "paths": [...]
+    "paths": ["..."]
   },
   {
     "name": "underscore",
     "count": 3,
-    "paths": [...]
+    "paths": ["..."]
   },
   {
     "name": "immutable",
