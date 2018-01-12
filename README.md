@@ -2,19 +2,45 @@
 Get an idea of what is going on in your package.json, see trends in usage and other useful things
 
 # Usage
-Currently, while it is not on npm clone this repo and specify a configuration JSON file with the following keys:
+While it is not on npm, clone this repo and specify a configuration JSON file with the following keys:
+
+- searchPackages: an array of strings that are pacakges you would like to track
+- appRoot: string that is the path to the root of the project you want to query
 
 ```json
 {
-  "searchPackages": ["an array of strings that are packages you would like to search for"],
-  "appRoot": "a string that is the path to the root of the project you want to look in"
+  "searchPackages": ["lodash", "ramda", "underscore", "immutable"],
+  "appRoot": "app/index.js"
 }
 ```
-use it like this:
+Run the script:
 
 `node componentUsage.js configFile.json`
 
-Cheers!
+Example output:
+```json
+[
+  {
+    "name": "lodash",
+    "count": 38
+  },
+  {
+    "name": "ramda",
+    "count": 179
+  },
+  {
+    "name": "underscore",
+    "count": 3
+  },
+  {
+    "name": "immutable",
+    "count": 460
+  }
+]
+```
+
+And there you have it! Looks like _Underscore_ is some low hanging fruit and can be removed relatively easily! 
+Go get'em tiger! 
 
 # TODO
 - [x] Read all the files in a directory, specify as arg
@@ -37,12 +63,12 @@ step of your code is probably the best.
 Phase two of this application would be having a UI layer that can visualize this
 information as a gh-pages application.
 
-# Input / Output
+# Script Psuedo Code
 The following command is run:
-`node componentUsage.js my-lib-root`
+`node componentUsage.js configFile.json`
 
-1. `my-lib-root` becomes the starting point of the application
-1. the config file is read:
+1. `configFile` is read and `appRoot` becomes the starting point of the application
+1. the config file also provides:
     1. if `searchPackages`:
         1. exist, then look for those during file read
         1. is empty, then return an Error helpful message
