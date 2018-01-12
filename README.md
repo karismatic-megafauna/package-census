@@ -10,7 +10,7 @@ Currently, while it is not on npm clone this repo and specify a configuration JS
 
 use it like this:
 
-`node componentUsage configFile.json`
+`node componentUsage.js configFile.json`
 
 Cheers!
 
@@ -21,6 +21,7 @@ Cheers!
    - [x] imports they care to look for (search packages :: Array)
    - [x] files to not look in (black listed files :: Array)
 - [x] build up an object with some info about paths and usage of imports
+- [ ] publish on npm
 
 # Workflow
 This script could be ran on:
@@ -36,7 +37,7 @@ information as a gh-pages application.
 
 # Input / Output
 The following command is run:
-`package-census my-lib-root`
+`node componentUsage.js my-lib-root`
 
 1. `my-lib-root` becomes the starting point of the application
 1. the config file is read:
