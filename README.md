@@ -6,8 +6,8 @@ Currently, while it is not on npm clone this repo and specify a configuration JS
 
 ```json
 {
-  searchPackages: ['an array of strings that are packages you would like to search for'],
-  appRoot: 'a string that is the path to the root of the project you want to look in'
+  "searchPackages": ["an array of strings that are packages you would like to search for"],
+  "appRoot": "a string that is the path to the root of the project you want to look in"
 }
 ```
 use it like this:
